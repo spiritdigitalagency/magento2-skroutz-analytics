@@ -1,0 +1,26 @@
+<?php
+/**
+ * @var \Spirit\Skroutz\Block\Success $block
+ */
+?>
+<?php if ( $block->getOrderId() ): ?>
+	<!-- SKROUTZ ANALYTICS CODE start -->
+	<script type="text/javascript">
+      skroutz_analytics("ecommerce", "addOrder", JSON.stringify({
+        order_id: '<?php echo $block->getOrderId(); ?>',
+        revenue: '<?php echo $block->getTotal(); ?>',
+        shipping: '<?php echo $block->getShippingCost(); ?>',
+        tax: '<?php echo $block->getTaxAmount(); ?>'
+      }));
+	  <?php foreach ($block->getItems() as $item): ?>
+      skroutz_analytics("ecommerce", "addItem", JSON.stringify({
+        order_id: "<?php echo $block->getOrderId(); ?>",
+        product_id: "<?php echo $block->getProductId( $item ); ?>",
+        name: "<?php echo $block->escapeJs( $item->getName() ); ?>",
+        price: "<?php echo $item->getPriceInclTax(); ?>",
+        quantity: "<?php echo $item->getQtyOrdered(); ?>"
+      }));
+	  <?php endforeach; ?>
+	</script>
+	<!-- SKROUTZ ANALYTICS CODE end -->
+<?php endif; ?>

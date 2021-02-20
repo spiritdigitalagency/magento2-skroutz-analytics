@@ -1,0 +1,11 @@
+<?php
+/**
+ * @var $block Magento\Catalog\Block\Product\View
+ * @var $_helper Spirit\Skroutz\Helper\Data
+ */
+$_product = $block->getProduct();
+$_helper  = $this->helper( Spirit\Skroutz\Helper\Data::class );
+var_dump($_helper->getReviewTheme());
+if ( ! empty( $_helper->getReviewTheme() ) ): ?>
+	<div id="skroutz-product-reviews-<?php echo $_helper->getReviewTheme(); ?>" data-product-id="<?php echo htmlspecialchars( $_product->getSku() ); ?>"></div>
+<?php endif; ?>
