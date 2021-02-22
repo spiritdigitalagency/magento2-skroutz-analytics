@@ -1,6 +1,10 @@
 {
   "name": "spiritgr/module-skroutz",
-  "description": "Integrate skroutz analytics to your Magento 2 site",
+  "description": "Integrate skroutz analytics to your Magento 2 site.",
+  "keywords": [
+    "magento2",
+    "skroutz"
+  ],
   "type": "magento2-module",
   "version": "1.0.0",
   "license": [
@@ -20,7 +24,9 @@
     "magento/framework": "*"
   },
   "autoload": {
-    "files": [ "registration.php" ],
+    "files": [
+      "registration.php"
+    ],
     "psr-4": {
       "Spirit\\Skroutz\\": ""
     }

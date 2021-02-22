@@ -1,8 +1,9 @@
 <?php
 /**
- * @var $_helper Spirit\Skroutz\Helper\Data
+ * @var $block Magento\Framework\View\Element\Template
+ * @var $_helper Spirit\Skroutz\ViewModel\Config
  */
-$_helper = $this->helper( Spirit\Skroutz\Helper\Data::class );
+$_helper  = $block->getData('config');
 ?>
 <!-- SKROUTZ ANALYTICS CODE start -->
 <script type="text/javascript">
@@ -11,6 +12,6 @@ $_helper = $this->helper( Spirit\Skroutz\Helper\Data::class );
     f.src=d;g=b.getElementsByTagName(c)[0];g.parentNode.insertBefore(f,g);
   })(window,document,'script','https://analytics.skroutz.gr/analytics.min.js','skroutz_analytics');
 
-  skroutz_analytics('session', 'connect', '<?php echo $_helper->getMerchantID(); ?>');
+  skroutz_analytics('session', 'connect', '<?= /* @noEscape */ $_helper->getMerchantID(); ?>');
 </script>
 <!-- SKROUTZ ANALYTICS CODE end -->
