@@ -2,7 +2,9 @@
 
 namespace Spirit\Skroutz\Model\Config\Source;
 
-class Reviews implements \Magento\Framework\Data\OptionSourceInterface
+use Magento\Framework\Data\OptionSourceInterface;
+
+class Reviews implements OptionSourceInterface
 {
     
     /**

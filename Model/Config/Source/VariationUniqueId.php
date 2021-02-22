@@ -2,7 +2,9 @@
 
 namespace Spirit\Skroutz\Model\Config\Source;
 
-class VariationUniqueId implements \Magento\Framework\Data\OptionSourceInterface
+use Magento\Framework\Data\OptionSourceInterface;
+
+class VariationUniqueId implements OptionSourceInterface
 {
     
     /**

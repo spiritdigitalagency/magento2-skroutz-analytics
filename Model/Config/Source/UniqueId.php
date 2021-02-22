@@ -2,21 +2,24 @@
 
 namespace Spirit\Skroutz\Model\Config\Source;
 
-class UniqueId implements \Magento\Framework\Data\OptionSourceInterface
+use Magento\Catalog\Model\ResourceModel\Product\Attribute\CollectionFactory;
+use Magento\Framework\Data\OptionSourceInterface;
+
+class UniqueId implements OptionSourceInterface
 {
     
     /**
-     * @var \Magento\Catalog\Model\ResourceModel\Product\Attribute\CollectionFactory
+     * @var CollectionFactory
      */
     protected $collectionFactory;
     
     /**
      * UniqueId constructor.
      *
-     * @param \Magento\Catalog\Model\ResourceModel\Product\Attribute\CollectionFactory $collectionFactory
+     * @param CollectionFactory $collectionFactory
      */
     public function __construct(
-        \Magento\Catalog\Model\ResourceModel\Product\Attribute\CollectionFactory $collectionFactory
+        CollectionFactory $collectionFactory
     ) {
         $this->collectionFactory = $collectionFactory;
     }
@@ -29,19 +32,21 @@ class UniqueId implements \Magento\Framework\Data\OptionSourceInterface
         $collection = $this->collectionFactory->create();
         $collection->addFieldToSelect('attribute_code')
                    ->addFieldToSelect('frontend_label')
-                   ->addFieldToSelect('frontend_input')
+                   ->addFieldToSelect(
+                       'frontend_input'
+                   )
                    ->addVisibleFilter()
                    ->removePriceFilter()
-                   ->addFieldToFilter('frontend_input', [ 'in' => [ 'text' ] ])
-                   ->addFieldToFilter('attribute_code', [ 'nin' => [ 'category_ids', 'tier_price', 'url_key' ] ]);
-        $attributesArray  = [
+                   ->addFieldToFilter('frontend_input', ['in' => ['text']])
+                   ->addFieldToFilter('attribute_code', ['nin' => ['category_ids', 'tier_price', 'url_key']]);
+        $attributesArray = [
             [
                 'value' => 'entity_id',
                 'label' => 'Product ID'
             ]
         ];
         foreach ($collection->getItems() as $attribute) {
-            $attributeData = [
+            $attributeData     = [
                 'value' => $attribute->getAttributeCode(),
                 'label' => $attribute->getFrontendLabel()
             ];

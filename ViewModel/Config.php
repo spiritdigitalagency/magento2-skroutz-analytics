@@ -2,24 +2,36 @@
 
 namespace Spirit\Skroutz\ViewModel;
 
-class Config implements \Magento\Framework\View\Element\Block\ArgumentInterface
+use Magento\Framework\App\Config\ScopeConfigInterface;
+use Magento\Framework\View\Element\Block\ArgumentInterface;
+use Magento\Store\Model\ScopeInterface;
+
+class Config implements ArgumentInterface
 {
     const CONFIG_NAMESPACE = 'spirit_skroutz';
     
     /**
-     * @var \Magento\Framework\App\Config\ScopeConfigInterface
+     * @var ScopeConfigInterface
      */
     protected $_scopeConfig;
     
     /**
      * Config constructor.
      *
-     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
+     * @param ScopeConfigInterface $scopeConfig
      */
     public function __construct(
-        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
+        ScopeConfigInterface $scopeConfig
     ) {
         $this->_scopeConfig = $scopeConfig;
+    }
+    
+    /**
+     * @return boolean
+     */
+    public function getIsActive(): bool
+    {
+        return $this->getConfig('analytics/status') ?? false;
     }
     
     /**
@@ -31,16 +43,8 @@ class Config implements \Magento\Framework\View\Element\Block\ArgumentInterface
     {
         return $this->_scopeConfig->getValue(
             self::CONFIG_NAMESPACE . "/$key",
-            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+            ScopeInterface::SCOPE_STORE
         );
-    }
-    
-    /**
-     * @return boolean
-     */
-    public function getIsActive(): bool
-    {
-        return $this->getConfig('analytics/status') ?? false;
     }
     
     /**

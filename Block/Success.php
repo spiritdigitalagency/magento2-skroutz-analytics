@@ -2,48 +2,58 @@
 
 namespace Spirit\Skroutz\Block;
 
-class Success extends \Magento\Framework\View\Element\Template
+use Magento\Catalog\Model\Product;
+use Magento\Checkout\Model\Session;
+use Magento\Framework\View\Element\Template;
+use Magento\Framework\View\Element\Template\Context;
+use Magento\Sales\Api\Data\OrderItemInterface;
+use Magento\Sales\Model\Order;
+use Magento\Sales\Model\OrderFactory;
+use Spirit\Skroutz\Helper\Data;
+use Spirit\Skroutz\ViewModel\Config;
+
+class Success extends Template
 {
     /**
-     * @var \Magento\Checkout\Model\Session
+     * @var Session
      */
     protected $_checkoutSession;
     
     /**
-     * @var \Magento\Sales\Model\OrderFactory
+     * @var OrderFactory
      */
     protected $_orderFactory;
     
     /**
-     * @var \Magento\Catalog\Model\Product
+     * @var Product
      */
     protected $_product;
     
     /**
-     * @var \Magento\Sales\Model\Order
+     * @var Order
      */
     protected $_order;
     
     /**
-     * @var \Spirit\Skroutz\Helper\Data
+     * @var Data
      */
     protected $_helper;
     
     /**
      * Success constructor.
      *
-     * @param \Magento\Checkout\Model\Session $checkoutSession
-     * @param \Magento\Sales\Model\OrderFactory $orderFactory
-     * @param \Magento\Catalog\Model\Product $product
-     * @param \Spirit\Skroutz\ViewModel\Config $helper
-     * @param \Magento\Framework\View\Element\Template\Context $context
+     * @param Session $checkoutSession
+     * @param OrderFactory $orderFactory
+     * @param Product $product
+     * @param Config $helper
+     * @param Context $context
      */
     public function __construct(
-        \Magento\Checkout\Model\Session $checkoutSession,
-        \Magento\Sales\Model\OrderFactory $orderFactory,
-        \Magento\Catalog\Model\Product $product,
-        \Spirit\Skroutz\ViewModel\Config $helper,
-        \Magento\Framework\View\Element\Template\Context $context
+        Session $checkoutSession,
+        OrderFactory $orderFactory,
+        Product $product,
+        Config $helper,
+        Context $context
     ) {
         $this->_checkoutSession = $checkoutSession;
         $this->_orderFactory    = $orderFactory;
@@ -54,7 +64,7 @@ class Success extends \Magento\Framework\View\Element\Template
         if ($increment_id) {
             $this->_order = $this->_orderFactory->create()->loadByIncrementId($increment_id);
         }
-//        $this->_order = $this->_orderFactory->create()->loadByIncrementId( '2000000063' );
+        //        $this->_order = $this->_orderFactory->create()->loadByIncrementId( '2000000063' );
         
         parent::__construct($context);
     }
@@ -112,7 +122,7 @@ class Success extends \Magento\Framework\View\Element\Template
     }
     
     /**
-     * @param \Magento\Sales\Api\Data\OrderItemInterface $order_item
+     * @param OrderItemInterface $order_item
      *
      * @return mixed|null
      */
