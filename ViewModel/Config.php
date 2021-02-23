@@ -50,9 +50,9 @@ class Config implements ArgumentInterface
     /**
      * @return string
      */
-    public function getMerchantID(): string
+    public function getShopAccountID(): string
     {
-        return $this->getConfig('analytics/merchant_id') ?? '';
+        return $this->getConfig('analytics/shop_account_id') ?? '';
     }
     
     /**

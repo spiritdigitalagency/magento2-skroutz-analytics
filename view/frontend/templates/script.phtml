@@ -19,6 +19,6 @@ $_helper = $block->getData('config');
     g.parentNode.insertBefore(f, g);
   })(window, document, "script", "https://analytics.skroutz.gr/analytics.min.js", "skroutz_analytics");
 
-  skroutz_analytics("session", "connect", '<?= /* @noEscape */ $_helper->getMerchantID(); ?>');
+  skroutz_analytics("session", "connect", '<?= /* @noEscape */ $_helper->getShopAccountID(); ?>');
 </script>
 <!-- SKROUTZ ANALYTICS CODE end -->

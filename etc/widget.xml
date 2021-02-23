@@ -1,0 +1,7 @@
+<?xml version="1.0" ?>
+<widgets xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:helloworld:Magento_Widget:etc/widget.xsd">
+    <widget class="Spirit\Skroutz\Block\Widget\Badge" id="spirit_skroutz_reviews">
+        <label>Skroutz Badge</label>
+        <description>Widget to display skroutz embedded badge.</description>
+    </widget>
+</widgets>
