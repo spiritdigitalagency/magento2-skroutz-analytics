@@ -1,7 +1,7 @@
-![GitHub all releases](https://img.shields.io/github/downloads/spiritdigitalagency/magento2-skroutz/total?style=for-the-badge)
-![GitHub Release Date](https://img.shields.io/github/release-date/spiritdigitalagency/magento2-skroutz?style=for-the-badge)
-![Packagist Version](https://img.shields.io/packagist/v/spiritdigitalagency/module-skroutz?style=for-the-badge)
-![GitHub](https://img.shields.io/github/license/spiritdigitalagency/magento2-skroutz?style=for-the-badge)
+![GitHub all releases](https://img.shields.io/github/downloads/spiritdigitalagency/magento2-skroutz-analytics/total?style=for-the-badge)
+![GitHub Release Date](https://img.shields.io/github/release-date/spiritdigitalagency/magento2-skroutz-analytics?style=for-the-badge)
+![Packagist Version](https://img.shields.io/packagist/v/spiritdigitalagency/module-skroutz-analytics?style=for-the-badge)
+![GitHub](https://img.shields.io/github/license/spiritdigitalagency/magento2-skroutz-analytics?style=for-the-badge)
 
 # Skroutz Analytics Integration Magento 2 Module
 
@@ -18,7 +18,7 @@ the [Magento 2](https://magento.com/) store.
 * Compatible with Magento 2.3.x and Magento 2.4.x
 
 The module is available from
-the [Github repo]((https://github.com/spiritdigitalagency/module-skroutz/archive/master.zip)).
+the [Github repo]((https://github.com/spiritdigitalagency/magento2-skroutz-analytics)).
 
 ## Installation
 
@@ -50,7 +50,7 @@ php bin/magento cache:flush
 
 If you don't want to install via composer, you can use this way.
 
-- Download [the latest version here](https://github.com/spiritdigitalagency/module-skroutz/archive/master.zip)
+- Download [the latest version here](https://github.com/spiritdigitalagency/magento2-skroutz-analytics/archive/master.zip)
 - Extract `master.zip` file to `app/code/Spirit/Skroutz`. You should create a folder path `app/code/Spirit/Skroutz` if
   not exist.
 - Go to Magento root folder and run upgrade command line to install `Spirit_Skroutz`:
