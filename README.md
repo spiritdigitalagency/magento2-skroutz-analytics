@@ -1,6 +1,6 @@
 ![GitHub all releases](https://img.shields.io/github/downloads/spiritdigitalagency/magento2-skroutz-analytics/total?style=for-the-badge)
 ![GitHub Release Date](https://img.shields.io/github/release-date/spiritdigitalagency/magento2-skroutz-analytics?style=for-the-badge)
-![Packagist Version](https://img.shields.io/packagist/v/spiritdigitalagency/module-skroutz-analytics?style=for-the-badge)
+![Packagist Version](https://img.shields.io/packagist/v/spiritdigitalagency/magento2-skroutz-analytics?style=for-the-badge)
 ![GitHub](https://img.shields.io/github/license/spiritdigitalagency/magento2-skroutz-analytics?style=for-the-badge)
 
 # Skroutz Analytics Integration Magento 2 Module
