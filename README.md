@@ -1,3 +1,8 @@
+![GitHub all releases](https://img.shields.io/github/downloads/spiritdigitalagency/magento2-skroutz/total?style=for-the-badge)
+![GitHub Release Date](https://img.shields.io/github/release-date/spiritdigitalagency/magento2-skroutz?style=for-the-badge)
+![Packagist Version](https://img.shields.io/packagist/v/spiritdigitalagency/module-skroutz?style=for-the-badge)
+![GitHub](https://img.shields.io/github/license/spiritdigitalagency/magento2-skroutz?style=for-the-badge)
+
 # Skroutz Analytics Magento 2 Module
 
 Integrate skroutz analytics to your Magento 2 site.
@@ -7,6 +12,7 @@ This module provides the integration between [Skroutz Analytics](http://develope
 
 * Integrates the analytics tracking script to all your frontend pages.
 * Integrates the ecommerce data (transactions and revenue) generated during an order.
+* Integrates the skroutz partner embedded badge as a widget for the store’s pages.
 * Integrates the skroutz product reviews as a tab to all your product pages.
 
 The module is available from the [Github repo]((https://github.com/spiritgr/module-skroutz/archive/master.zip)).
