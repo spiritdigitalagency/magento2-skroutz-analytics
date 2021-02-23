@@ -38,7 +38,10 @@ class UniqueId implements OptionSourceInterface
                    ->addVisibleFilter()
                    ->removePriceFilter()
                    ->addFieldToFilter('frontend_input', ['in' => ['text']])
-                   ->addFieldToFilter('attribute_code', ['nin' => ['category_ids', 'tier_price', 'meta_title', 'url_key']]);
+                   ->addFieldToFilter(
+                       'attribute_code',
+                       ['nin' => ['category_ids', 'tier_price', 'meta_title', 'url_key']]
+                   );
         $attributesArray = [
             [
                 'value' => 'entity_id',
@@ -46,7 +49,7 @@ class UniqueId implements OptionSourceInterface
             ]
         ];
         foreach ($collection->getItems() as $attribute) {
-            $attributeData     = [
+            $attributeData = [
                 'value' => $attribute->getAttributeCode(),
                 'label' => $attribute->getFrontendLabel()
             ];
