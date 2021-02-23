@@ -126,7 +126,8 @@ directly embed it in a page / static block.
 7. Pick the location you want the badge to be
 8. Save and Flush Magento Cache
 
-##Author: 
+## Author
+
 Name: [Spirit Digital Agency](https://spirit.com.gr/)
 
 Email: [support@spirit.com.gr](mailto:support@spirit.com.gr)
