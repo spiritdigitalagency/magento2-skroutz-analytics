@@ -3,12 +3,15 @@
   "description": "Integrate skroutz analytics to your Magento 2 store.",
   "keywords": [
     "magento2",
-    "skroutz"
+    "magento2-module",
+    "skroutz",
+    "skroutz-analytics",
+    "integration"
   ],
   "type": "magento2-module",
   "version": "1.0.0",
   "license": [
-    "OSL-3.0"
+    "GPL-3.0-or-later"
   ],
   "authors": [
     {
