@@ -7,5 +7,10 @@
                 <value id="skroutz-analytics" type="host">analytics.skroutz.gr</value>
             </values>
         </policy>
+        <policy id="frame-src">
+            <values>
+                <value id="skroutz-analytics" type="host">analytics.skroutz.gr</value>
+            </values>
+        </policy>
     </policies>
 </csp_whitelist>
