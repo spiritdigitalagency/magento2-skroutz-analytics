@@ -1,6 +1,6 @@
 ![GitHub all releases](https://img.shields.io/github/downloads/spiritdigitalagency/magento2-skroutz-analytics/total?style=for-the-badge)
 ![GitHub Release Date](https://img.shields.io/github/release-date/spiritdigitalagency/magento2-skroutz-analytics?style=for-the-badge)
-![Packagist Version](https://img.shields.io/packagist/v/spiritdigitalagency/magento2-skroutz-analytics?style=for-the-badge)
+![Packagist Version](https://img.shields.io/packagist/v/spirit-digital-agency/magento2-skroutz-analytics?style=for-the-badge)
 ![GitHub](https://img.shields.io/github/license/spiritdigitalagency/magento2-skroutz-analytics?style=for-the-badge)
 
 # Skroutz Analytics Integration Magento 2 Module
@@ -31,7 +31,7 @@ Run the following command in Magento 2 root folder.
 #### Install
 
 ```
-composer require spiritdigitalagency/module-skroutz
+composer require spirit-digital-agency/magento2-skroutz-analytics
 php bin/magento setup:upgrade
 php bin/magento setup:static-content:deploy
 php bin/magento cache:flush
@@ -40,7 +40,7 @@ php bin/magento cache:flush
 #### Upgrade
 
 ```
-composer update spiritdigitalagency/module-skroutz
+composer update spirit-digital-agency/magento2-skroutz-analytics
 php bin/magento setup:upgrade
 php bin/magento setup:static-content:deploy
 php bin/magento cache:flush
