@@ -10,7 +10,9 @@
         order_id: '<?= /* @noEscape */ $block->getOrderId(); ?>',
         revenue: '<?= /* @noEscape */ $block->getTotal(); ?>',
         shipping: '<?= /* @noEscape */ $block->getShippingCost(); ?>',
-        tax: '<?= /* @noEscape */ $block->getTaxAmount(); ?>'
+        tax: '<?= /* @noEscape */ $block->getTaxAmount(); ?>',
+        paid_by: '<?= /* @noEscape */ $block->getPaymentMethodTitle(); ?>',
+        paid_by_descr: '<?= /* @noEscape */ $block->getPaymentMethodCode(); ?>'
       }));
       <?php foreach ($block->getItems() as $item): ?>
       skroutz_analytics("ecommerce", "addItem", JSON.stringify({
