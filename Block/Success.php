@@ -122,6 +122,30 @@ class Success extends Template
     }
     
     /**
+     * @return string
+     */
+    public function getPaymentMethodTitle(): string
+    {
+        if (! $this->_order) {
+            return '';
+        }
+        $payment = $this->_order->getPayment();
+        $method = $payment->getMethodInstance();
+        return ($payment && $method) ? $method->getTitle() : '';
+    }
+    
+    /**
+     * @return string
+     */
+    public function getPaymentMethodCode(): string
+    {
+        if (! $this->_order) {
+            return '';
+        }
+        return $this->_order->getPayment() ? $this->_order->getPayment()->getMethod() : '';
+    }
+    
+    /**
      * @param OrderItemInterface $order_item
      *
      * @return mixed|null
