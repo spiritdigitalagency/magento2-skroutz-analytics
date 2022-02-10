@@ -9,7 +9,6 @@ use Magento\Framework\View\Element\Template\Context;
 use Magento\Sales\Api\Data\OrderItemInterface;
 use Magento\Sales\Model\Order;
 use Magento\Sales\Model\OrderFactory;
-use Spirit\Skroutz\Helper\Data;
 use Spirit\Skroutz\ViewModel\Config;
 
 class Success extends Template
@@ -18,27 +17,27 @@ class Success extends Template
      * @var Session
      */
     protected $_checkoutSession;
-    
+
     /**
      * @var OrderFactory
      */
     protected $_orderFactory;
-    
+
     /**
      * @var Product
      */
     protected $_product;
-    
+
     /**
      * @var Order
      */
     protected $_order;
-    
+
     /**
-     * @var Data
+     * @var Config
      */
     protected $_helper;
-    
+
     /**
      * Success constructor.
      *
@@ -59,16 +58,15 @@ class Success extends Template
         $this->_orderFactory    = $orderFactory;
         $this->_product         = $product;
         $this->_helper          = $helper;
-        
+
         $increment_id = $this->_checkoutSession->getLastRealOrderId();
         if ($increment_id) {
             $this->_order = $this->_orderFactory->create()->loadByIncrementId($increment_id);
         }
-        //        $this->_order = $this->_orderFactory->create()->loadByIncrementId( '2000000063' );
-        
+
         parent::__construct($context);
     }
-    
+
     /**
      * @return integer|boolean
      */
@@ -76,43 +74,51 @@ class Success extends Template
     {
         return $this->_order ? $this->_order->getId() : false;
     }
-    
+
+    /**
+     * @return Order
+     */
+    public function getOrder()
+    {
+        return $this->_order;
+    }
+
     /**
      * @return float
      */
-    public function getTotal(): float
+    public function getTotal()
     {
         if (! $this->_order) {
             return 0;
         }
-        
+
         return number_format($this->_order->getSubtotalInclTax() + $this->_order->getShippingInclTax(), 2);
     }
-    
+
     /**
      * @return float
      */
-    public function getShippingCost(): float
+    public function getShippingCost()
     {
         if (! $this->_order) {
             return 0;
         }
-        
+
         return number_format($this->_order->getShippingInclTax(), 2);
     }
-    
+
     /**
      * @return float
      */
-    public function getTaxAmount(): float
+    public function getTaxAmount()
     {
         if (! $this->_order) {
             return 0;
         }
-        
+
         return number_format($this->_order->getTaxAmount(), 2);
     }
-    
+
     /**
      * @return array
      */
@@ -120,7 +126,7 @@ class Success extends Template
     {
         return $this->_order ? $this->_order->getAllVisibleItems() : [];
     }
-    
+
     /**
      * @return string
      */
@@ -133,7 +139,7 @@ class Success extends Template
         $method = $payment->getMethodInstance();
         return ($payment && $method) ? $method->getTitle() : '';
     }
-    
+
     /**
      * @return string
      */
@@ -144,7 +150,7 @@ class Success extends Template
         }
         return $this->_order->getPayment() ? $this->_order->getPayment()->getMethod() : '';
     }
-    
+
     /**
      * @param OrderItemInterface $order_item
      *
@@ -152,13 +158,11 @@ class Success extends Template
      */
     public function getProductId($order_item)
     {
-        $variationUniqueId = $this->_helper->getVariationUniqueId();
-        $productId         = $order_item->getProductId();
-        if (! $variationUniqueId && $order_item->getParentItem()) {
-            $productId = $order_item->getParentItem()->getProductId();
+        if (! $this->_helper->getVariationUniqueId()) {
+            $product = $this->_product->loadByAttribute('sku', $order_item->getSku());
+            return $product->getData($this->_helper->getUniqueId());
         }
-        $product = $this->_product->load($productId);
-        
+        $product = $this->_product->loadByAttribute('entity_id', $order_item->getProductId());
         return $product->getData($this->_helper->getUniqueId());
     }
 }

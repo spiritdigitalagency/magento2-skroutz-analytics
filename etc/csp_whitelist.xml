@@ -4,12 +4,12 @@
     <policies>
         <policy id="script-src">
             <values>
-                <value id="skroutz-analytics" type="host">skroutz.gr</value>
+                <value id="skroutz-analytics" type="host">*.skroutz.gr</value>
             </values>
         </policy>
         <policy id="frame-src">
             <values>
-                <value id="skroutz-analytics" type="host">skroutz.gr</value>
+                <value id="skroutz-analytics" type="host">*.skroutz.gr</value>
             </values>
         </policy>
     </policies>
