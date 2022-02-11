@@ -12,5 +12,10 @@
                 <value id="skroutz-analytics" type="host">*.skroutz.gr</value>
             </values>
         </policy>
+        <policy id="img-src">
+            <values>
+                <value id="skroutz-analytics" type="host">*.skroutz.gr</value>
+            </values>
+        </policy>
     </policies>
 </csp_whitelist>
