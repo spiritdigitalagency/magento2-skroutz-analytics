@@ -30,7 +30,7 @@ class Badge extends Template implements BlockInterface
     /**
      * @param Context $context
      * @param Config $config
-     * @param array $data
+     * @param mixed[] $data
      */
     public function __construct(
         Context $context,

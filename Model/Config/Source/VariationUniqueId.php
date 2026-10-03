@@ -15,7 +15,9 @@ use Magento\Framework\Data\OptionSourceInterface;
 class VariationUniqueId implements OptionSourceInterface
 {
     /**
-     * @inheritdoc
+     * Options for the admin select.
+     *
+     * @return array<int, array<string, mixed>>
      */
     public function toOptionArray(): array
     {
