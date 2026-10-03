@@ -1,12 +1,21 @@
 <?php
 /**
- * @var $block Magento\Catalog\Block\Product\View
- * @var $_helper Spirit\Skroutz\ViewModel\Config
+ * Copyright © Spirit Digital Agency. All rights reserved.
+ * See LICENSE.md for license details.
  */
-$_product = $block->getProduct();
-$_helper  = $block->getData('config');
-if (! empty($_helper->getReviewTheme())): ?>
-    <div id="skroutz-product-reviews-<?= $block->escapeHtml($_helper->getReviewTheme()); ?>"
-         data-product-id="<?= $block->escapeHtml($_product->getSku()); ?>">
-    </div>
-<?php endif; ?>
+
+/**
+ * @var \Magento\Catalog\Block\Product\View $block
+ * @var \Magento\Framework\Escaper $escaper
+ * @var \Spirit\Skroutz\ViewModel\Config $config
+ */
+$config = $block->getData('config');
+$theme = $config->getReviewTheme();
+$product = $block->getProduct();
+if ($theme === '' || !$product) {
+    return;
+}
+?>
+<div id="skroutz-product-reviews-<?= $escaper->escapeHtmlAttr($theme) ?>"
+     data-product-id="<?= $escaper->escapeHtmlAttr((string)$product->getData($config->getUniqueId())) ?>">
+</div>

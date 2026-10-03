@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <spirit_skroutz>
+            <analytics>
+                <status>0</status>
+                <unique_id>entity_id</unique_id>
+                <variation_unique_id>1</variation_unique_id>
+            </analytics>
+            <reviews>
+                <status>0</status>
+                <theme>1</theme>
+            </reviews>
+        </spirit_skroutz>
+    </default>
+</config>

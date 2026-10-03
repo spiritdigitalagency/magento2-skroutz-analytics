@@ -1,168 +1,188 @@
 <?php
+/**
+ * Copyright © Spirit Digital Agency. All rights reserved.
+ * See LICENSE.md for license details.
+ */
+declare(strict_types=1);
 
 namespace Spirit\Skroutz\Block;
 
-use Magento\Catalog\Model\Product;
+use Magento\Catalog\Api\ProductRepositoryInterface;
 use Magento\Checkout\Model\Session;
+use Magento\Framework\Exception\NoSuchEntityException;
+use Magento\Framework\Serialize\Serializer\JsonHexTag;
 use Magento\Framework\View\Element\Template;
 use Magento\Framework\View\Element\Template\Context;
 use Magento\Sales\Api\Data\OrderItemInterface;
 use Magento\Sales\Model\Order;
-use Magento\Sales\Model\OrderFactory;
 use Spirit\Skroutz\ViewModel\Config;
 
+/**
+ * Skroutz Analytics ecommerce data of the order on the checkout success page.
+ */
 class Success extends Template
 {
     /**
+     * Magento payment method codes mapped to the paid_by types Skroutz recommends.
+     */
+    private const PAYMENT_TYPES = [
+        'banktransfer' => 'bank_transfer',
+        'cashondelivery' => 'cash_on_delivery',
+    ];
+
+    /**
      * @var Session
      */
-    protected $_checkoutSession;
+    private $checkoutSession;
 
     /**
-     * @var OrderFactory
+     * @var ProductRepositoryInterface
      */
-    protected $_orderFactory;
-
-    /**
-     * @var Product
-     */
-    protected $_product;
-
-    /**
-     * @var Order
-     */
-    protected $_order;
+    private $productRepository;
 
     /**
      * @var Config
      */
-    protected $_helper;
+    private $config;
 
     /**
-     * Success constructor.
-     *
-     * @param Session $checkoutSession
-     * @param OrderFactory $orderFactory
-     * @param Product $product
-     * @param Config $helper
+     * @var JsonHexTag
+     */
+    private $json;
+
+    /**
+     * @var Order|null
+     */
+    private $order;
+
+    /**
      * @param Context $context
+     * @param Session $checkoutSession
+     * @param ProductRepositoryInterface $productRepository
+     * @param Config $config
+     * @param JsonHexTag $json
+     * @param array $data
      */
     public function __construct(
+        Context $context,
         Session $checkoutSession,
-        OrderFactory $orderFactory,
-        Product $product,
-        Config $helper,
-        Context $context
+        ProductRepositoryInterface $productRepository,
+        Config $config,
+        JsonHexTag $json,
+        array $data = []
     ) {
-        $this->_checkoutSession = $checkoutSession;
-        $this->_orderFactory    = $orderFactory;
-        $this->_product         = $product;
-        $this->_helper          = $helper;
-
-        $increment_id = $this->_checkoutSession->getLastRealOrderId();
-        if ($increment_id) {
-            $this->_order = $this->_orderFactory->create()->loadByIncrementId($increment_id);
-        }
-
-        parent::__construct($context);
+        $this->checkoutSession = $checkoutSession;
+        $this->productRepository = $productRepository;
+        $this->config = $config;
+        $this->json = $json;
+        parent::__construct($context, $data);
     }
 
     /**
-     * @return integer|boolean
-     */
-    public function getOrderId()
-    {
-        return $this->_order ? $this->_order->getId() : false;
-    }
-
-    /**
-     * @return Order
-     */
-    public function getOrder()
-    {
-        return $this->_order;
-    }
-
-    /**
-     * @return float
-     */
-    public function getTotal()
-    {
-        if (! $this->_order) {
-            return 0;
-        }
-
-        return number_format($this->_order->getSubtotalInclTax() + $this->_order->getShippingInclTax(), 2);
-    }
-
-    /**
-     * @return float
-     */
-    public function getShippingCost()
-    {
-        if (! $this->_order) {
-            return 0;
-        }
-
-        return number_format($this->_order->getShippingInclTax(), 2);
-    }
-
-    /**
-     * @return float
-     */
-    public function getTaxAmount()
-    {
-        if (! $this->_order) {
-            return 0;
-        }
-
-        return number_format($this->_order->getTaxAmount(), 2);
-    }
-
-    /**
-     * @return array
-     */
-    public function getItems(): array
-    {
-        return $this->_order ? $this->_order->getAllVisibleItems() : [];
-    }
-
-    /**
-     * @return string
-     */
-    public function getPaymentMethodTitle(): string
-    {
-        if (! $this->_order) {
-            return '';
-        }
-        $payment = $this->_order->getPayment();
-        $method = $payment->getMethodInstance();
-        return ($payment && $method) ? $method->getTitle() : '';
-    }
-
-    /**
-     * @return string
-     */
-    public function getPaymentMethodCode(): string
-    {
-        if (! $this->_order) {
-            return '';
-        }
-        return $this->_order->getPayment() ? $this->_order->getPayment()->getMethod() : '';
-    }
-
-    /**
-     * @param OrderItemInterface $order_item
+     * The order that was just placed, if any.
      *
-     * @return mixed|null
+     * @return Order|null
      */
-    public function getProductId($order_item)
+    public function getOrder(): ?Order
     {
-        if (! $this->_helper->getVariationUniqueId()) {
-            $product = $this->_product->loadByAttribute('sku', $order_item->getSku());
-            return $product->getData($this->_helper->getUniqueId());
+        if ($this->order === null) {
+            $order = $this->checkoutSession->getLastRealOrder();
+            $this->order = $order->getId() ? $order : null;
         }
-        $product = $this->_product->loadByAttribute('entity_id', $order_item->getProductId());
-        return $product->getData($this->_helper->getUniqueId());
+
+        return $this->order;
+    }
+
+    /**
+     * The addOrder payload as a JSON object that is safe to print inside a script tag.
+     *
+     * @return string
+     */
+    public function getOrderJson(): string
+    {
+        $order = $this->getOrder();
+        $payment = $order->getPayment();
+        $code = $payment ? (string)$payment->getMethod() : '';
+
+        return $this->json->serialize([
+            'order_id' => $order->getIncrementId(),
+            'revenue' => $this->formatAmount($order->getGrandTotal()),
+            'shipping' => $this->formatAmount($order->getShippingInclTax()),
+            'tax' => $this->formatAmount($order->getTaxAmount()),
+            'paid_by' => $this->getPaymentType($code),
+            'paid_by_descr' => $payment ? (string)$payment->getAdditionalInformation('method_title') : '',
+        ]);
+    }
+
+    /**
+     * The addItem payloads, one JSON object per visible order item.
+     *
+     * @return string[]
+     */
+    public function getItemsJson(): array
+    {
+        $order = $this->getOrder();
+        $items = [];
+        foreach ($order->getAllVisibleItems() as $item) {
+            $items[] = $this->json->serialize([
+                'order_id' => $order->getIncrementId(),
+                'product_id' => $this->getProductId($item, (int)$order->getStoreId()),
+                'name' => $item->getName(),
+                'price' => $this->formatAmount($item->getPriceInclTax()),
+                'quantity' => (string)(float)$item->getQtyOrdered(),
+            ]);
+        }
+
+        return $items;
+    }
+
+    /**
+     * Skroutz expects a plain decimal: no thousands separator.
+     *
+     * @param mixed $amount
+     * @return string
+     */
+    private function formatAmount($amount): string
+    {
+        return number_format((float)$amount, 2, '.', '');
+    }
+
+    /**
+     * The paid_by type for a Magento payment method code.
+     *
+     * @param string $code
+     * @return string
+     */
+    private function getPaymentType(string $code): string
+    {
+        if (strpos($code, 'paypal') !== false) {
+            return 'paypal';
+        }
+
+        return self::PAYMENT_TYPES[$code] ?? $code;
+    }
+
+    /**
+     * The product's Unique ID, as sent in the Skroutz XML feed.
+     *
+     * Configurable items carry the child SKU and the parent product id, so the
+     * "variation" setting picks which of the two products is reported.
+     *
+     * @param OrderItemInterface $item
+     * @param int $storeId
+     * @return string
+     */
+    private function getProductId(OrderItemInterface $item, int $storeId): string
+    {
+        try {
+            $product = $this->config->getVariationUniqueId()
+                ? $this->productRepository->getById((int)$item->getProductId(), false, $storeId)
+                : $this->productRepository->get((string)$item->getSku(), false, $storeId);
+        } catch (NoSuchEntityException $e) {
+            // ponytail: product deleted since the order was placed, the SKU is the best id left
+            return (string)$item->getSku();
+        }
+
+        return (string)$product->getData($this->config->getUniqueId());
     }
 }

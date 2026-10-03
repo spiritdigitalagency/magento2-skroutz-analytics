@@ -1,7 +1,14 @@
 <?php
 /**
- * @var $block Spirit\Skroutz\Block\Widget\Badge
+ * Copyright © Spirit Digital Agency. All rights reserved.
+ * See LICENSE.md for license details.
  */
-if (! empty($block->getIsActive())): ?>
-    <div id="sa-badge-embedded-plugin"></div>
-<?php endif; ?>
+
+/**
+ * @var \Spirit\Skroutz\Block\Widget\Badge $block
+ */
+if (!$block->getIsActive()) {
+    return;
+}
+?>
+<div id="sa-badge-embedded-plugin"></div>

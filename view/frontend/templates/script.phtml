@@ -1,24 +1,34 @@
 <?php
 /**
- * @var $block Magento\Framework\View\Element\Template
- * @var $_helper Spirit\Skroutz\ViewModel\Config
+ * Copyright © Spirit Digital Agency. All rights reserved.
+ * See LICENSE.md for license details.
  */
-$_helper = $block->getData('config');
-?>
-<!-- SKROUTZ ANALYTICS CODE start -->
-<script type="text/javascript">
-  (function (a, b, c, d, e, f, g) {
-    a["SkroutzAnalyticsObject"] = e;
-    a[e] = a[e] || function () {
-      (a[e].q = a[e].q || []).push(arguments);
-    };
-    f = b.createElement(c);
-    f.async = true;
-    f.src = d;
-    g = b.getElementsByTagName(c)[0];
-    g.parentNode.insertBefore(f, g);
-  })(window, document, "script", "https://skroutza.skroutz.gr/skroutza.min.js", "skroutz_analytics");
 
-  skroutz_analytics("session", "connect", '<?= /* @noEscape */ $_helper->getShopAccountID(); ?>');
-</script>
-<!-- SKROUTZ ANALYTICS CODE end -->
+/**
+ * @var \Magento\Framework\View\Element\Template $block
+ * @var \Magento\Framework\Escaper $escaper
+ * @var \Magento\Framework\View\Helper\SecureHtmlRenderer $secureRenderer
+ * @var \Spirit\Skroutz\ViewModel\Config $config
+ */
+$config = $block->getData('config');
+$shopAccountId = $config->getShopAccountID();
+if ($shopAccountId === '') {
+    return;
+}
+
+$script = <<<JS
+(function (a, b, c, d, e, f, g) {
+  a["SkroutzAnalyticsObject"] = e;
+  a[e] = a[e] || function () {
+    (a[e].q = a[e].q || []).push(arguments);
+  };
+  f = b.createElement(c);
+  f.async = true;
+  f.src = d;
+  g = b.getElementsByTagName(c)[0];
+  g.parentNode.insertBefore(f, g);
+})(window, document, "script", "https://skroutza.skroutz.gr/skroutza.min.js", "skroutz_analytics");
+skroutz_analytics("session", "connect", "{$escaper->escapeJs($shopAccountId)}");
+JS;
+?>
+<?= /* @noEscape */ $secureRenderer->renderTag('script', ['type' => 'text/javascript'], $script, false) ?>
