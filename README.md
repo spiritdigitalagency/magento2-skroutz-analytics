@@ -65,11 +65,11 @@ php bin/magento cache:flush
 ## Setup
 
 There are several configuration options for this extension which can be found
-at `Stores > Configuration > Spirit > Skroutz`.
+at `Stores > Configuration > Spirit Digital > Skroutz`.
 
 ### Skroutz Analytics
 
-1. Navigate to `Stores > Configuration > Spirit > Skroutz > Skroutz Analytics`
+1. Navigate to `Stores > Configuration > Spirit Digital > Skroutz > Skroutz Analytics`
 2. Set the `Enabled` to `yes`
 3. Set the `Shop Account ID` to the one provided by Skroutz
 4. Set the `Unique ID` to the product Unique ID you are using in your XML Feed
@@ -113,7 +113,7 @@ Enable Skroutz Product Reviews to display the Skroutz review tab at the product 
 
 #### Magento Settings
 
-1. Navigate to `Stores > Configuration > Spirit > Skroutz > Skroutz Reviews`
+1. Navigate to `Stores > Configuration > Spirit Digital > Skroutz > Skroutz Reviews`
 2. Set the Enabled to yes.
 3. Choose the theme you want (inline - extended)
 4. Save and Flush Magento Cache

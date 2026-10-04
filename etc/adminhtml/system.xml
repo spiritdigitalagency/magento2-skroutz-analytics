@@ -3,7 +3,7 @@
         xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
     <system>
         <tab id="spirit" translate="label" sortOrder="800" class="spirit-tab">
-            <label>Spirit</label>
+            <label>Spirit Digital</label>
         </tab>
         <section id="spirit_skroutz"
                  translate="label"

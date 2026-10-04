@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+- The settings tab is now called "Spirit Digital" and shows the Spirit Digital icon, the same in every Spirit Digital module.
+
 ## 2.0.0
 
 ### Compatibility
