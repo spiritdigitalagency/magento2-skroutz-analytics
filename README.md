@@ -154,6 +154,4 @@ directly embed it in a page / static block.
 
 Name: [Spirit Digital Agency](https://spiritdigital.agency/)
 
-Email: [support@spiritdigital.agency](mailto:support@spiritdigital.agency)
-
 See [CHANGELOG.md](CHANGELOG.md) for the release history.
