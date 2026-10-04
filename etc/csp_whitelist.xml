@@ -1,8 +1,13 @@
 <?xml version="1.0"?>
 <csp_whitelist xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-               xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Csp/etc/csp_whitelist.xsd">
+               xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Csp:etc/csp_whitelist.xsd">
     <policies>
         <policy id="script-src">
+            <values>
+                <value id="skroutz-analytics" type="host">*.skroutz.gr</value>
+            </values>
+        </policy>
+        <policy id="connect-src">
             <values>
                 <value id="skroutz-analytics" type="host">*.skroutz.gr</value>
             </values>

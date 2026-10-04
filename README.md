@@ -7,7 +7,7 @@
 
 Integrate skroutz analytics to your Magento 2 store.
 
-This module provides the integration between [Skroutz Analytics](http://developer.skroutz.gr/analytics/) and
+This module provides the integration between [Skroutz Analytics](https://developer.skroutz.gr/analytics/) and
 the [Magento 2](https://magento.com/) store.
 
 * Integrates the analytics tracking script to all your frontend pages.
@@ -15,10 +15,11 @@ the [Magento 2](https://magento.com/) store.
 * Integrates the skroutz partner embedded badge as a widget for the store’s pages.
 * Integrates the skroutz product reviews as a tab to all your product pages.
 * Select any of your Magento Product attributes or custom attributes to match your skroutz XML feed
-* Compatible with Magento 2.3.x and Magento 2.4.x
+* Compatible with Magento Open Source and Adobe Commerce 2.4.0 – 2.4.9
+* Compatible with PHP 7.4, 8.1, 8.2, 8.3, 8.4 and 8.5
 
 The module is available from
-the [Github repo]((https://github.com/spiritdigitalagency/magento2-skroutz-analytics)).
+the [Github repo](https://github.com/spiritdigitalagency/magento2-skroutz-analytics).
 
 ## Installation
 
@@ -72,7 +73,30 @@ at `Stores > Configuration > Spirit > Skroutz`.
 2. Set the `Enabled` to `yes`
 3. Set the `Shop Account ID` to the one provided by Skroutz
 4. Set the `Unique ID` to the product Unique ID you are using in your XML Feed
-5. Save and Flush Magento Cache
+5. Set `Variation Unique IDs` to the product whose Unique ID your XML feed uses for configurable
+   product variations (the variation itself or its parent product)
+6. Save and Flush Magento Cache
+
+### Data sent to Skroutz
+
+On the order success page the module sends the order with `addOrder` and each ordered product with
+`addItem`:
+
+| Field | Value |
+|-------|-------|
+| `order_id` | Order number (increment ID) |
+| `revenue` | Order grand total, including tax and shipping |
+| `shipping` | Shipping amount including tax |
+| `tax` | Order tax amount |
+| `paid_by` | `bank_transfer`, `cash_on_delivery`, `paypal`, or the payment method code |
+| `paid_by_descr` | Payment method title |
+| `product_id` | The configured Unique ID |
+| `name` | Product name |
+| `price` | Unit price including tax |
+| `quantity` | Ordered quantity |
+
+Amounts are in the order currency. Payment fees added to the grand total by third party payment
+modules (for example a cash on delivery fee) are not removed from `revenue`.
 
 ## Additional Configuration
 
@@ -128,8 +152,8 @@ directly embed it in a page / static block.
 
 ## Author
 
-Name: [Spirit Digital Agency](https://spirit.com.gr/)
+Name: [Spirit Digital Agency](https://spiritdigital.agency/)
 
-Email: [support@spirit.com.gr](mailto:support@spirit.com.gr)
+Email: [support@spiritdigital.agency](mailto:support@spiritdigital.agency)
 
-Release Date: 23 - 02 - 2021
+See [CHANGELOG.md](CHANGELOG.md) for the release history.

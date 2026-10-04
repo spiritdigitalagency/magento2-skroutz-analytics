@@ -1,28 +1,20 @@
 <?php
 /**
- * @var \Spirit\Skroutz\Block\Success $block
+ * Copyright © Spirit Digital Agency. All rights reserved.
+ * See LICENSE.md for license details.
  */
+
+/**
+ * @var \Spirit\Skroutz\Block\Success $block
+ * @var \Magento\Framework\View\Helper\SecureHtmlRenderer $secureRenderer
+ */
+if (!$block->getOrder()) {
+    return;
+}
+
+$script = 'skroutz_analytics("ecommerce", "addOrder", ' . $block->getOrderJson() . ');';
+foreach ($block->getItemsJson() as $itemJson) {
+    $script .= PHP_EOL . 'skroutz_analytics("ecommerce", "addItem", ' . $itemJson . ');';
+}
 ?>
-<?php if ($block->getOrderId()): ?>
-    <!-- SKROUTZ ANALYTICS CODE start -->
-    <script type="text/javascript">
-      skroutz_analytics("ecommerce", "addOrder", JSON.stringify({
-        order_id: '<?= /* @noEscape */ $block->getOrderId(); ?>',
-        revenue: '<?= /* @noEscape */ $block->getTotal(); ?>',
-        shipping: '<?= /* @noEscape */ $block->getShippingCost(); ?>',
-        tax: '<?= /* @noEscape */ $block->getTaxAmount(); ?>',
-        paid_by: '<?= /* @noEscape */ $block->getPaymentMethodTitle(); ?>',
-        paid_by_descr: '<?= /* @noEscape */ $block->getPaymentMethodCode(); ?>'
-      }));
-      <?php foreach ($block->getItems() as $item): ?>
-      skroutz_analytics("ecommerce", "addItem", JSON.stringify({
-        order_id: "<?= /* @noEscape */ $block->getOrderId(); ?>",
-        product_id: "<?= /* @noEscape */ $block->getProductId($item); ?>",
-        name: "<?= $block->escapeJs($item->getName()); ?>",
-        price: "<?= /* @noEscape */ $item->getPriceInclTax(); ?>",
-        quantity: "<?= /* @noEscape */ $item->getQtyOrdered(); ?>"
-      }));
-      <?php endforeach; ?>
-    </script>
-    <!-- SKROUTZ ANALYTICS CODE end -->
-<?php endif; ?>
+<?= /* @noEscape */ $secureRenderer->renderTag('script', ['type' => 'text/javascript'], $script, false) ?>

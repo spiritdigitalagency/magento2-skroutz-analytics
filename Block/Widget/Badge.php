@@ -1,43 +1,53 @@
 <?php
+/**
+ * Copyright © Spirit Digital Agency. All rights reserved.
+ * See LICENSE.md for license details.
+ */
+declare(strict_types=1);
 
 namespace Spirit\Skroutz\Block\Widget;
 
 use Magento\Framework\View\Element\Template;
+use Magento\Framework\View\Element\Template\Context;
 use Magento\Widget\Block\BlockInterface;
+use Spirit\Skroutz\ViewModel\Config;
 
+/**
+ * Placeholder for the Skroutz embedded partner badge.
+ */
 class Badge extends Template implements BlockInterface
 {
-    
     /**
      * @var string
      */
-    protected $_template = "widget/badge.phtml";
-    
+    protected $_template = 'Spirit_Skroutz::widget/badge.phtml';
+
     /**
-     * @var \Spirit\Skroutz\ViewModel\Config
+     * @var Config
      */
-    protected $_helper;
-    
+    private $config;
+
     /**
-     * Badge constructor.
-     *
-     * @param \Spirit\Skroutz\ViewModel\Config $helper
-     * @param Template\Context $context
+     * @param Context $context
+     * @param Config $config
+     * @param array $data
      */
     public function __construct(
-        \Spirit\Skroutz\ViewModel\Config $helper,
-        \Magento\Framework\View\Element\Template\Context $context
+        Context $context,
+        Config $config,
+        array $data = []
     ) {
-        $this->_helper = $helper;
-        
-        parent::__construct($context);
+        $this->config = $config;
+        parent::__construct($context, $data);
     }
-    
+
     /**
+     * Whether Skroutz Analytics, which renders the badge, is enabled.
+     *
      * @return bool
      */
     public function getIsActive(): bool
     {
-        return $this->_helper->getIsActive();
+        return $this->config->getIsActive();
     }
 }

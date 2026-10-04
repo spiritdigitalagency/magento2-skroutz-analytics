@@ -1,21 +1,26 @@
 <?php
+/**
+ * Copyright © Spirit Digital Agency. All rights reserved.
+ * See LICENSE.md for license details.
+ */
+declare(strict_types=1);
 
 namespace Spirit\Skroutz\Model\Config\Source;
 
 use Magento\Catalog\Model\ResourceModel\Product\Attribute\CollectionFactory;
 use Magento\Framework\Data\OptionSourceInterface;
 
+/**
+ * Product text attributes that can serve as the Skroutz Unique ID.
+ */
 class UniqueId implements OptionSourceInterface
 {
-    
     /**
      * @var CollectionFactory
      */
-    protected $collectionFactory;
-    
+    private $collectionFactory;
+
     /**
-     * UniqueId constructor.
-     *
      * @param CollectionFactory $collectionFactory
      */
     public function __construct(
@@ -23,39 +28,26 @@ class UniqueId implements OptionSourceInterface
     ) {
         $this->collectionFactory = $collectionFactory;
     }
-    
+
     /**
-     * @return array[]
+     * @inheritdoc
      */
     public function toOptionArray(): array
     {
         $collection = $this->collectionFactory->create();
-        $collection->addFieldToSelect('attribute_code')
-                   ->addFieldToSelect('frontend_label')
-                   ->addFieldToSelect(
-                       'frontend_input'
-                   )
-                   ->addVisibleFilter()
-                   ->removePriceFilter()
-                   ->addFieldToFilter('frontend_input', ['in' => ['text']])
-                   ->addFieldToFilter(
-                       'attribute_code',
-                       ['nin' => ['category_ids', 'tier_price', 'meta_title', 'url_key']]
-                   );
-        $attributesArray = [
-            [
-                'value' => 'entity_id',
-                'label' => 'Product ID'
-            ]
-        ];
+        $collection->addFieldToSelect(['attribute_code', 'frontend_label'])
+            ->addVisibleFilter()
+            ->addFieldToFilter('frontend_input', 'text')
+            ->addFieldToFilter('attribute_code', ['nin' => ['meta_title', 'url_key']]);
+
+        $options = [['value' => 'entity_id', 'label' => __('Product ID')]];
         foreach ($collection->getItems() as $attribute) {
-            $attributeData = [
+            $options[] = [
                 'value' => $attribute->getAttributeCode(),
-                'label' => $attribute->getFrontendLabel()
+                'label' => $attribute->getFrontendLabel(),
             ];
-            $attributesArray[] = $attributeData;
         }
-        
-        return $attributesArray;
+
+        return $options;
     }
 }
