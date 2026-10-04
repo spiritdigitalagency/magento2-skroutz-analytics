@@ -8,6 +8,7 @@ declare(strict_types=1);
 namespace Spirit\Skroutz\Block;
 
 use Magento\Catalog\Api\ProductRepositoryInterface;
+use Magento\Catalog\Model\Product;
 use Magento\Checkout\Model\Session;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Serialize\Serializer\JsonHexTag;
@@ -61,7 +62,7 @@ class Success extends Template
      * @param ProductRepositoryInterface $productRepository
      * @param Config $config
      * @param JsonHexTag $json
-     * @param array $data
+     * @param mixed[] $data
      */
     public function __construct(
         Context $context,
@@ -101,8 +102,12 @@ class Success extends Template
     public function getOrderJson(): string
     {
         $order = $this->getOrder();
+        if (!$order) {
+            return '{}';
+        }
         $payment = $order->getPayment();
         $code = $payment ? (string)$payment->getMethod() : '';
+        $info = $payment ? (array)$payment->getAdditionalInformation() : [];
 
         return $this->json->serialize([
             'order_id' => $order->getIncrementId(),
@@ -110,7 +115,7 @@ class Success extends Template
             'shipping' => $this->formatAmount($order->getShippingInclTax()),
             'tax' => $this->formatAmount($order->getTaxAmount()),
             'paid_by' => $this->getPaymentType($code),
-            'paid_by_descr' => $payment ? (string)$payment->getAdditionalInformation('method_title') : '',
+            'paid_by_descr' => (string)($info['method_title'] ?? ''),
         ]);
     }
 
@@ -122,6 +127,9 @@ class Success extends Template
     public function getItemsJson(): array
     {
         $order = $this->getOrder();
+        if (!$order) {
+            return [];
+        }
         $items = [];
         foreach ($order->getAllVisibleItems() as $item) {
             $items[] = $this->json->serialize([
@@ -175,6 +183,7 @@ class Success extends Template
     private function getProductId(OrderItemInterface $item, int $storeId): string
     {
         try {
+            /** @var Product $product */
             $product = $this->config->getVariationUniqueId()
                 ? $this->productRepository->getById((int)$item->getProductId(), false, $storeId)
                 : $this->productRepository->get((string)$item->getSku(), false, $storeId);

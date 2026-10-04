@@ -28,7 +28,7 @@
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                 </field>
                 <field id="shop_account_id"
-                       translate="label"
+                       translate="label comment"
                        type="text"
                        sortOrder="20"
                        showInDefault="1"
@@ -42,7 +42,7 @@
                     </depends>
                 </field>
                 <field id="unique_id"
-                       translate="label"
+                       translate="label comment"
                        type="select"
                        sortOrder="30"
                        showInDefault="1"
@@ -73,7 +73,7 @@
             <group id="reviews" translate="label" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
                 <label>Skroutz Reviews</label>
                 <field id="status"
-                       translate="label"
+                       translate="label comment"
                        type="select"
                        sortOrder="10"
                        showInDefault="1"
@@ -84,7 +84,7 @@
                     <comment>Skroutz Analytics should be enabled.</comment>
                 </field>
                 <field id="theme"
-                       translate="label"
+                       translate="label comment"
                        type="select"
                        sortOrder="20"
                        showInDefault="1"

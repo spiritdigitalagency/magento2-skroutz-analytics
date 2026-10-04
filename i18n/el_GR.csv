@@ -6,3 +6,7 @@
 "Product ID","ID Προϊόντος"
 "Send variation Unique ID","Αποστολή Unique ID της παραλλαγής"
 "Send parent Unique ID","Αποστολή Unique ID του γονικού προϊόντος"
+"The shop account ID is provided by Skroutz","Το Shop Account ID το δίνει το Skroutz"
+"Specify the Unique ID that should be send to analytics.","Επιλέξτε το Unique ID που στέλνεται στο Skroutz Analytics."
+"Skroutz Analytics should be enabled.","Πρέπει να είναι ενεργό το Skroutz Analytics."
+"Specify the styling of the reviews widget.","Επιλέξτε την εμφάνιση του widget αξιολογήσεων."
